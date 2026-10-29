@@ -65,9 +65,9 @@ export default function Navbar() {
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] rounded-sm">
               <img 
-                src={isDark ? "/logo-1.jpg" : "/logo-3.jpg"} 
+                src={isDark ? "https://i.postimg.cc/JhMycxNP/logo-as-removebg-preview.png" : "https://i.postimg.cc/8cKxkTGK/logo-2as-removebg-preview.png"} 
                 alt="AstroSafe Logo" 
-                className="h-10 w-auto object-contain"
+                className="h-20 w-auto object-contain"
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'flex';

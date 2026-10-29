@@ -157,7 +157,7 @@ export default function Footer() {
           {/* Left: Logo and Copyright */}
           <div className="flex items-center gap-3">
             <img 
-              src="https://anyastro.web.app/assets/branding/logo.png" 
+              src="https://i.postimg.cc/tg83jf8F/logo-removebg-preview.png" 
               alt="AnyAstro Logo" 
               className="h-5 w-auto object-contain filter grayscale brightness-200"
             />
