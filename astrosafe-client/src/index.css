@@ -1,111 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* AstroSafe brand */
+  --brand-black: #000000;
+  --brand-white: #FFFFFF;
+  --brand-blue: #2563EB;
+  --brand-blue-hover: #1D4ED8;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Light theme */
+  --background: #FFFFFF;
+  --background-secondary: #F5F5F5;
+  --surface: #FFFFFF;
+  --surface-hover: #F3F4F6;
+  --surface-elevated: #FFFFFF;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --text-primary: #000000;
+  --text-body: #1F2937;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --border: #E5E7EB;
+  --border-strong: #D1D5DB;
+
+  /* Controls */
+  --button-primary: #2563EB;
+  --button-primary-hover: #1D4ED8;
+  --button-primary-active: #1E40AF;
+  --button-text: #FFFFFF;
+  --focus-ring: #2563EB;
+  --link: #2563EB;
+  --link-hover: #1D4ED8;
+
+  /* Status */
+  --success: #15803D;
+  --warning: #B45309;
+  --danger: #B91C1C;
+  --info: #2563EB;
+  --pending: #2563EB;
+  --untested: #6B7280;
+
+  --success-bg: #F0FDF4;
+  --warning-bg: #FFFBEB;
+  --danger-bg: #FEF2F2;
+  --info-bg: #EFF6FF;
+
+  /* Diagnostic categories */
+  --diagnostic-ip: #2563EB;
+  --diagnostic-dns: #0891B2;
+  --diagnostic-webrtc: #7C3AED;
+  --diagnostic-fingerprint: #9333EA;
+  --diagnostic-trackers: #DB2777;
+  --diagnostic-certificate: #0F766E;
+
+  /* Technical panels */
+  --code-bg: #F1F5F9;
+  --code-text: #334155;
+
+  /* Footer */
+  --footer-bg: #000000;
+  --footer-heading: #FFFFFF;
+  --footer-text: #D1D5DB;
+  --footer-border: #333333;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+[data-theme="dark"] {
+  --background: #000000;
+  --background-secondary: #0A0A0A;
+  --surface: #111111;
+  --surface-hover: #1A1A1A;
+  --surface-elevated: #1F1F1F;
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+  --text-primary: #FFFFFF;
+  --text-body: #F3F4F6;
+  --text-secondary: #D1D5DB;
+  --text-muted: #9CA3AF;
+
+  --border: #333333;
+  --border-strong: #4B5563;
+
+  --button-primary: #3B82F6;
+  --button-primary-hover: #60A5FA;
+  --button-primary-active: #2563EB;
+  --button-text: #FFFFFF;
+  --focus-ring: #60A5FA;
+  --link: #60A5FA;
+  --link-hover: #93C5FD;
+
+  --success: #4ADE80;
+  --warning: #FBBF24;
+  --danger: #F87171;
+  --info: #60A5FA;
+  --pending: #60A5FA;
+  --untested: #9CA3AF;
+
+  --success-bg: #052E16;
+  --warning-bg: #451A03;
+  --danger-bg: #450A0A;
+  --info-bg: #172554;
+
+  --code-bg: #0A0A0A;
+  --code-text: #E5E7EB;
+
+  --footer-bg: #000000;
+  --footer-heading: #FFFFFF;
+  --footer-text: #D1D5DB;
+  --footer-border: #333333;
 }
 
 body {
+  background-color: var(--background);
+  color: var(--text-body);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
   margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+/* Indian Languages Formatting Support */
+html {
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* Custom Blueprint Grid */
+.blueprint-grid {
+  background-color: var(--background-secondary);
+  background-image: 
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+/* Halftone Dither Effect for Visual Art */
+.halftone-effect {
+  mix-blend-mode: multiply;
+  filter: contrast(120%) brightness(90%);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+[data-theme="dark"] .halftone-effect {
+  mix-blend-mode: screen;
+  filter: contrast(120%) brightness(110%);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Technical Data Font Setting */
+.technical-text {
+  font-family: 'Space Mono', 'Fira Code', monospace;
 }
