@@ -79,6 +79,10 @@ export default function Footer() {
   const { language = 'en' } = useTheme();
   const content = footerTranslations[language] || footerTranslations['en'];
 
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <footer className="w-full bg-[#111111] text-[#A1A1AA] pt-20 pb-8 relative overflow-hidden font-sans border-t border-[var(--border-strong)]">
       
@@ -103,41 +107,41 @@ export default function Footer() {
           {/* Column 1: Tools */}
           <div className="flex flex-col space-y-4">
             <h4 className="text-white font-medium mb-2">{content.tools}</h4>
-            <Link to="#" className="hover:text-white transition-colors text-sm">IP Checker</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">WebRTC Leak Test</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Canvas Fingerprint</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">DNS Security</Link>
+            <Link to="/ip-checker" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">IP Checker</Link>
+            <Link to="/webrtc-leak-test" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">WebRTC Leak Test</Link>
+            <Link to="/canvas-fingerprint" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Canvas Fingerprint</Link>
+            <Link to="/dns-security" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">DNS Security</Link>
           </div>
 
           {/* Column 2: Business */}
           <div className="flex flex-col space-y-4">
             <h4 className="text-white font-medium mb-2">{content.business}</h4>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Overview</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Enterprise Security</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm mt-4 text-[#71717A]">Department</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Customer Support</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Cybersecurity</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Legal</Link>
+            <Link to="/overview" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Overview</Link>
+            <Link to="/enterprise-security" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Enterprise Security</Link>
+            <Link to="/department" onClick={scrollToTop} className="hover:text-white transition-colors text-sm mt-4 text-[#71717A]">Department</Link>
+            <Link to="/customer-support" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Customer Support</Link>
+            <Link to="/cybersecurity" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Cybersecurity</Link>
+            <Link to="/legal" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Legal</Link>
           </div>
 
           {/* Column 3: Resources */}
           <div className="flex flex-col space-y-4">
             <h4 className="text-white font-medium mb-2">{content.resources}</h4>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Documentation</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">API Reference</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Tutorials</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Changelog</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">System Status</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Community</Link>
+            <Link to="/resources" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Documentation</Link>
+            <Link to="/api-reference" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">API Reference</Link>
+            <Link to="/tutorials" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Tutorials</Link>
+            <Link to="/changelog" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Changelog</Link>
+            <Link to="/system-status" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">System Status</Link>
+            <Link to="/community" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Community</Link>
           </div>
 
           {/* Column 4: Company */}
           <div className="flex flex-col space-y-4">
             <h4 className="text-white font-medium mb-2">{content.company}</h4>
-            <Link to="#" className="hover:text-white transition-colors text-sm">About AstroSafe</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Research</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Careers</Link>
-            <Link to="#" className="hover:text-white transition-colors text-sm">Newsroom</Link>
+            <Link to="/about" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">About AstroSafe</Link>
+            <Link to="/research" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Research</Link>
+            <Link to="/careers" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Careers</Link>
+            <Link to="/newsroom" onClick={scrollToTop} className="hover:text-white transition-colors text-sm">Newsroom</Link>
           </div>
 
           {/* Column 5: Social */}
@@ -168,9 +172,9 @@ export default function Footer() {
 
           {/* Right: Legal Links */}
           <div className="flex items-center space-x-6 text-sm">
-            <Link to="#" className="hover:text-white transition-colors">{content.privacy}</Link>
-            <Link to="#" className="hover:text-white transition-colors">{content.terms}</Link>
-            <Link to="#" className="hover:text-white transition-colors">{content.usage}</Link>
+            <Link to="/legal" onClick={scrollToTop} className="hover:text-white transition-colors">{content.privacy}</Link>
+            <Link to="/legal" onClick={scrollToTop} className="hover:text-white transition-colors">{content.terms}</Link>
+            <Link to="/legal" onClick={scrollToTop} className="hover:text-white transition-colors">{content.usage}</Link>
           </div>
 
         </div>

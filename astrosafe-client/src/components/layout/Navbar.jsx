@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Sun, Globe, Search, Shield } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import TwoLineMenu from '../ui/TwoLineMenu';
 import PixelButton from '../ui/PixelButton';
+import TestPromptModal from '../ui/TestPromptModal';
 
 // Simple, non-technical business translations for 14 Indian languages
 const navTranslations = {
@@ -35,11 +36,15 @@ const languagesList = [
 export default function Navbar() {
   const { isDark, toggleTheme, language, changeLanguage } = useTheme();
   const content = navTranslations[language] || navTranslations['en'];
+  const navigate = useNavigate();
   
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // State to manage the Test Prompt Modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLanguageSelect = (code) => {
     changeLanguage(code);
@@ -49,196 +54,217 @@ export default function Navbar() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
-      // Functional routing for search logic would go here
       console.log("Searching for:", searchQuery);
       setSearchQuery("");
       setIsSearchOpen(false);
     }
   };
 
+  const handleStartTestClick = () => {
+    setIsModalOpen(true);
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    if (window.location.pathname === '/') {
+      window.scrollTo(0, 0);
+    } else {
+      navigate('/');
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <nav className="w-full bg-[var(--surface)] border-b border-[var(--border-strong)] relative z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          
-          {/* Left: Dynamic AstroSafe Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] rounded-sm">
-              <img 
-                src={isDark ? "https://i.postimg.cc/JhMycxNP/logo-as-removebg-preview.png" : "https://i.postimg.cc/8cKxkTGK/logo-2as-removebg-preview.png"} 
-                alt="AstroSafe Logo" 
-                className="h-20 w-auto object-contain"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              <div className="hidden items-center gap-2 font-bold text-2xl text-[var(--text-primary)]">
-                <Shield className="text-[var(--brand-blue)]" /> AstroSafe
-              </div>
-            </Link>
-          </div>
-
-          {/* Center: Desktop Navigation Links */}
-          <div className="hidden md:flex flex-1 justify-center items-center space-x-8">
-            <Link to="/" className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200">{content.home}</Link>
-            <Link to="#tools" className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200">{content.tools}</Link>
-            <Link to="#reports" className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200">{content.reports}</Link>
-            <Link to="#contact" className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200">{content.contact}</Link>
-          </div>
-
-          {/* Right: Search, Language, Theme, and Call to Action */}
-          <div className="hidden md:flex items-center space-x-4">
+    <>
+      <nav className="w-full bg-[var(--surface)] border-b border-[var(--border-strong)] relative z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
             
-            {/* Search Toggle */}
-            <div className="relative">
+            {/* Left: Dynamic AstroSafe Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <a href="/" onClick={handleHomeClick} className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] rounded-sm cursor-pointer">
+                <img 
+                  src={isDark ? "https://i.postimg.cc/JhMycxNP/logo-as-removebg-preview.png" : "https://i.postimg.cc/8cKxkTGK/logo-2as-removebg-preview.png"} 
+                  alt="AstroSafe Logo" 
+                  className="h-20 w-auto object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="hidden items-center gap-2 font-bold text-2xl text-[var(--text-primary)]">
+                  <Shield className="text-[var(--brand-blue)]" /> AstroSafe
+                </div>
+              </a>
+            </div>
+
+            {/* Center: Desktop Navigation Links updated with real routes */}
+            <div className="hidden md:flex flex-1 justify-center items-center space-x-8">
+              <a href="/" onClick={handleHomeClick} className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200 cursor-pointer">{content.home}</a>
+              <Link to="/#tools" className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200">{content.tools}</Link>
+              <Link to="/reports" className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200">{content.reports}</Link>
+              <Link to="/contact" className="text-[var(--text-primary)] font-medium hover:text-[var(--brand-blue)] transition-colors duration-200">{content.contact}</Link>
+            </div>
+
+            {/* Right: Search, Language, Theme, and Call to Action */}
+            <div className="hidden md:flex items-center space-x-4">
+              
+              {/* Search Toggle */}
+              <div className="relative">
+                <button 
+                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  className="p-2 text-[var(--text-primary)] hover:bg-[var(--surface-hover)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] transition-colors"
+                  aria-label={content.search}
+                >
+                  <Search size={20} />
+                </button>
+                
+                <AnimatePresence>
+                  {isSearchOpen && (
+                    <motion.form 
+                      initial={{ opacity: 0, width: 0 }}
+                      animate={{ opacity: 1, width: 250 }}
+                      exit={{ opacity: 0, width: 0 }}
+                      onSubmit={handleSearchSubmit}
+                      className="absolute right-0 top-full mt-2 flex items-center bg-[var(--surface)] border border-[var(--border-strong)] shadow-lg overflow-hidden"
+                    >
+                      <input 
+                        type="text" 
+                        placeholder={content.search}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-transparent px-4 py-2 text-[var(--text-primary)] focus:outline-none"
+                      />
+                      <button type="submit" className="bg-[var(--brand-blue)] text-[var(--brand-white)] px-3 py-2">
+                        <Search size={18} />
+                      </button>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Language Selector */}
+              <div className="relative">
+                <button 
+                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                  className="p-2 text-[var(--text-primary)] hover:bg-[var(--surface-hover)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] transition-colors"
+                  aria-label="Change Language"
+                >
+                  <Globe size={20} />
+                </button>
+                
+                <AnimatePresence>
+                  {isLangMenuOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-48 bg-[var(--surface)] border border-[var(--border-strong)] shadow-xl max-h-64 overflow-y-auto z-50"
+                    >
+                      {languagesList.map((lang) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => handleLanguageSelect(lang.code)}
+                          className={`block w-full text-left px-4 py-3 text-sm transition-colors ${language === lang.code ? 'bg-[var(--brand-blue)] text-[var(--brand-white)]' : 'text-[var(--text-primary)] hover:bg-[var(--surface-hover)]'}`}
+                        >
+                          {lang.label}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Theme Toggle */}
               <button 
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                onClick={toggleTheme}
                 className="p-2 text-[var(--text-primary)] hover:bg-[var(--surface-hover)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] transition-colors"
-                aria-label={content.search}
+                aria-label="Toggle Theme"
               >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+
+              {/* CTA Pixel Button attached to modal logic */}
+              <PixelButton onClick={handleStartTestClick} language={language}>
+                {content.start}
+              </PixelButton>
+            </div>
+
+            {/* Mobile Menu Controls */}
+            <div className="md:hidden flex items-center space-x-2">
+              <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="p-2 text-[var(--text-primary)]">
                 <Search size={20} />
               </button>
-              
-              <AnimatePresence>
-                {isSearchOpen && (
-                  <motion.form 
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: 250 }}
-                    exit={{ opacity: 0, width: 0 }}
-                    onSubmit={handleSearchSubmit}
-                    className="absolute right-0 top-full mt-2 flex items-center bg-[var(--surface)] border border-[var(--border-strong)] shadow-lg overflow-hidden"
-                  >
-                    <input 
-                      type="text" 
-                      placeholder={content.search}
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent px-4 py-2 text-[var(--text-primary)] focus:outline-none"
-                    />
-                    <button type="submit" className="bg-[var(--brand-blue)] text-[var(--brand-white)] px-3 py-2">
-                      <Search size={18} />
-                    </button>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Language Selector */}
-            <div className="relative">
-              <button 
-                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                className="p-2 text-[var(--text-primary)] hover:bg-[var(--surface-hover)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] transition-colors"
-                aria-label="Change Language"
-              >
-                <Globe size={20} />
+              <button onClick={toggleTheme} className="p-2 text-[var(--text-primary)]">
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
               </button>
-              
-              <AnimatePresence>
-                {isLangMenuOpen && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 bg-[var(--surface)] border border-[var(--border-strong)] shadow-xl max-h-64 overflow-y-auto z-50"
-                  >
-                    {languagesList.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => handleLanguageSelect(lang.code)}
-                        className={`block w-full text-left px-4 py-3 text-sm transition-colors ${language === lang.code ? 'bg-[var(--brand-blue)] text-[var(--brand-white)]' : 'text-[var(--text-primary)] hover:bg-[var(--surface-hover)]'}`}
-                      >
-                        {lang.label}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <TwoLineMenu isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} language={language} />
             </div>
-
-            {/* Theme Toggle */}
-            <button 
-              onClick={toggleTheme}
-              className="p-2 text-[var(--text-primary)] hover:bg-[var(--surface-hover)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)] transition-colors"
-              aria-label="Toggle Theme"
-            >
-              {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-
-            {/* CTA Pixel Button */}
-            <PixelButton onClick={() => window.scrollTo(0, document.body.scrollHeight)} language={language}>
-              {content.start}
-            </PixelButton>
-          </div>
-
-          {/* Mobile Menu Controls */}
-          <div className="md:hidden flex items-center space-x-2">
-            <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="p-2 text-[var(--text-primary)]">
-              <Search size={20} />
-            </button>
-            <button onClick={toggleTheme} className="p-2 text-[var(--text-primary)]">
-              {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <TwoLineMenu isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} language={language} />
           </div>
         </div>
-      </div>
 
-      {/* Mobile Search Dropdown */}
-      <AnimatePresence>
-        {isSearchOpen && className === "md:hidden" && (
-           <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="w-full px-4 pb-4 bg-[var(--surface)] border-b border-[var(--border-strong)]">
-             <form onSubmit={handleSearchSubmit} className="flex border border-[var(--border-strong)]">
-               <input type="text" placeholder={content.search} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent px-4 py-2 text-[var(--text-primary)] focus:outline-none" />
-               <button type="submit" className="bg-[var(--brand-blue)] text-[var(--brand-white)] px-4"><Search size={18} /></button>
-             </form>
-           </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Mobile Search Dropdown */}
+        <AnimatePresence>
+          {isSearchOpen && (
+             <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="md:hidden w-full px-4 pb-4 bg-[var(--surface)] border-b border-[var(--border-strong)]">
+               <form onSubmit={handleSearchSubmit} className="flex border border-[var(--border-strong)]">
+                 <input type="text" placeholder={content.search} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent px-4 py-2 text-[var(--text-primary)] focus:outline-none" />
+                 <button type="submit" className="bg-[var(--brand-blue)] text-[var(--brand-white)] px-4"><Search size={18} /></button>
+               </form>
+             </motion.div>
+          )}
+        </AnimatePresence>
 
-      {/* Mobile Full Screen Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "100vh" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden fixed inset-x-0 top-20 bg-[var(--surface)] z-40 overflow-y-auto border-t border-[var(--border-strong)] flex flex-col"
-          >
-            <div className="flex flex-col p-6 space-y-6">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold text-[var(--text-primary)]">{content.home}</Link>
-              <Link to="#tools" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold text-[var(--text-primary)]">{content.tools}</Link>
-              <Link to="#reports" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold text-[var(--text-primary)]">{content.reports}</Link>
-              <Link to="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold text-[var(--text-primary)]">{content.contact}</Link>
-              
-              <div className="w-full h-px bg-[var(--border)] my-4"></div>
-              
-              {/* Mobile Language Selection */}
-              <h3 className="text-sm font-bold text-[var(--text-muted)] uppercase tracking-wider mb-2">Change Language</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {languagesList.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      changeLanguage(lang.code);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`text-left px-4 py-2 text-sm border ${language === lang.code ? 'bg-[var(--brand-blue)] text-[var(--brand-white)] border-[var(--brand-blue)]' : 'bg-[var(--surface-secondary)] text-[var(--text-primary)] border-[var(--border-strong)]'}`}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
+        {/* Mobile Full Screen Menu Overlay updated with real routes */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "100vh" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden fixed inset-x-0 top-20 bg-[var(--surface)] z-40 overflow-y-auto border-t border-[var(--border-strong)] flex flex-col"
+            >
+              <div className="flex flex-col p-6 space-y-6">
+                <a href="/" onClick={handleHomeClick} className="text-2xl font-bold text-[var(--text-primary)] cursor-pointer">{content.home}</a>
+                <Link to="/#tools" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold text-[var(--text-primary)]">{content.tools}</Link>
+                <Link to="/reports" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold text-[var(--text-primary)]">{content.reports}</Link>
+                <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold text-[var(--text-primary)]">{content.contact}</Link>
+                
+                <div className="w-full h-px bg-[var(--border)] my-4"></div>
+                
+                {/* Mobile Language Selection */}
+                <h3 className="text-sm font-bold text-[var(--text-muted)] uppercase tracking-wider mb-2">Change Language</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {languagesList.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        changeLanguage(lang.code);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`text-left px-4 py-2 text-sm border ${language === lang.code ? 'bg-[var(--brand-blue)] text-[var(--brand-white)] border-[var(--brand-blue)]' : 'bg-[var(--surface-secondary)] text-[var(--text-primary)] border-[var(--border-strong)]'}`}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-8">
+                   <PixelButton className="w-full" onClick={handleStartTestClick} language={language}>
+                     {content.start}
+                   </PixelButton>
+                </div>
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
 
-              <div className="mt-8">
-                 <PixelButton className="w-full" onClick={() => setIsMobileMenuOpen(false)} language={language}>
-                   {content.start}
-                 </PixelButton>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+      {/* Render the modal at the root level outside the nav flow */}
+      <TestPromptModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 }
