@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "astrosafeweb"
+  },
+  "targets": {
+    "astrosafeweb": {
+      "hosting": {
+        "main": [
+          "astrosafe.web.app"
+        ]
+      }
+    }
   }
 }
