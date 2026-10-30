@@ -1,18 +1,23 @@
-rules_version='2'
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
-      allow read, write: if request.time < timestamp.date(2026, 11, 28);
+      // en: Database is completely locked for security. No one can read or write.
+      // hi: सुरक्षा के लिए डेटाबेस पूरी तरह से बंद है। कोई भी पढ़ या लिख नहीं सकता है।
+      // mr: सुरक्षेसाठी डेटाबेस पूर्णपणे बंद आहे. कोणीही वाचू किंवा लिहू शकत नाही.
+      // ta: பாதுகாப்பிற்காக தரவுத்தளம் முற்றிலும் பூட்டப்பட்டுள்ளது. யாராலும் படிக்கவோ எழுதவோ முடியாது.
+      // te: భద్రత కోసం డేటాబేస్ పూర్తిగా లాక్ చేయబడింది. ఎవరూ చదవలేరు లేదా రాయలేరు.
+      // kn: ಭದ್ರತೆಗಾಗಿ ಡೇಟಾಬೇಸ್ ಸಂಪೂರ್ಣವಾಗಿ ಲಾಕ್ ಆಗಿದೆ. ಯಾರು ಓದಲು ಅಥವಾ ಬರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ.
+      // bn: নিরাপত্তার জন্য ডাটাবেস সম্পূর্ণ লক করা আছে। কেউ পড়তে বা লিখতে পারবে না।
+      // gu: સુરક્ષા માટે ડેટાબેઝ સંપૂર્ણપણે લોક છે. કોઈ વાંચી કે લખી શકતું નથી.
+      // pa: ਸੁਰੱਖਿਆ ਲਈ ਡੇਟਾਬੇਸ ਪੂਰੀ ਤਰ੍ਹਾਂ ਲਾਕ ਹੈ। ਕੋਈ ਵੀ ਪੜ੍ਹ ਜਾਂ ਲਿਖ ਨਹੀਂ ਸਕਦਾ।
+      // ml: സുരക്ഷയ്ക്കായി ഡാറ്റാബേസ് പൂർണ്ണമായും പൂട്ടിയിരിക്കുന്നു. ആർക്കും വായിക്കാനോ എഴുതാനോ കഴിയില്ല.
+      // or: ସୁରକ୍ଷା ପାଇଁ ଡାଟାବେସ୍ ସମ୍ପୂର୍ଣ୍ଣ ଲକ୍ ହୋଇଛି | କେହି ପଢି କିମ୍ବା ଲେଖି ପାରିବେ ନାହିଁ |
+      // as: সুৰক্ষাৰ বাবে ডাটাবেচ সম্পূৰ্ণৰূপে লক কৰা হৈছে। কোনেও পঢ়িব বা লিখিব নোৱাৰে।
+      // ur: سیکیورٹی کے لیے ڈیٹا بیس مکمل طور پر لاک ہے۔ کوئی بھی پڑھ یا لکھ نہیں سکتا۔
+      // sa: सुरक्षायै दत्तांशकोषः पूर्णतया पिहितः अस्ति। कोऽपि पठितुं वा लेखितुं न शक्नोति।
+      allow read, write: if false;
     }
   }
 }
