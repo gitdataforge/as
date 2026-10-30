@@ -6,7 +6,7 @@
     "astrosafeweb": {
       "hosting": {
         "main": [
-          "astrosafe.web.app"
+          "astrosafeweb"
         ]
       }
     }
